@@ -1,0 +1,53 @@
+/* META Reporting expanded demonstration — custom reporting studio and geography */
+:root{--studio-border:#dfe7ee;--studio-teal:#078b83;--studio-ink:#172b45}
+.report-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 18px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.report-tabs button{border:0;background:transparent;padding:10px 15px;font:inherit;font-weight:700;color:#617286;border-radius:5px;cursor:pointer}
+.report-tabs button.active{color:#075f60;background:#e9f5f3}
+.report-toolbar{background:#fff;border:1px solid var(--line);padding:16px 18px;display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+.report-toolbar-left,.report-toolbar-actions,.toolbar-row,.field-line{display:flex;align-items:end;gap:12px;flex-wrap:wrap}
+.report-toolbar-left{flex:1;min-width:250px}.report-toolbar-actions{justify-content:flex-end}
+.field{display:flex;flex-direction:column;gap:7px;font-size:12px;font-weight:700;color:#5b6c7c;min-width:130px}
+.field input,.field select,.field textarea{box-sizing:border-box;background:#fff;border:1px solid #d8e2e9;border-radius:4px;color:#1a2d44;font:inherit;font-size:13px;font-weight:500;padding:9px 10px;width:100%;min-width:0}
+.field input[type=color]{padding:3px;width:100%;height:40px}
+.field textarea{resize:vertical;min-height:110px}
+.report-toolbar .field:first-child{min-width:235px}
+.report-studio-layout{display:grid;grid-template-columns:205px minmax(0,1fr) 245px;align-items:start;gap:16px}
+.studio-palette,.studio-inspector{background:white;border:1px solid var(--line);padding:16px;position:sticky;top:82px;max-height:calc(100vh - 105px);overflow:auto;box-sizing:border-box}
+.studio-palette h3,.studio-inspector h3{font-size:13px;margin:0 0 9px;color:var(--studio-ink)}
+.studio-inspector .field{margin-bottom:13px;min-width:0}.studio-inspector hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+.component-list{display:grid;gap:6px}
+.component-btn{display:flex;align-items:center;gap:9px;text-align:left;padding:10px 8px;background:white;border:1px solid var(--line);border-radius:4px;color:var(--studio-ink);font:inherit;font-size:12px;cursor:pointer}
+.component-btn:hover{background:#eff8f7;border-color:#a5d4d0}.component-btn b{margin-left:auto;font-size:17px;color:#078b83}
+.component-icon{display:inline-grid;place-items:center;width:24px;height:24px;background:#eff5f7;color:#17646e;font-size:13px}
+.report-stage{min-width:0;background:#edf1f5;padding:20px;overflow:auto;box-sizing:border-box}
+.report-paper{background:#fff;margin:0 auto;width:100%;max-width:780px;min-height:540px;box-shadow:0 6px 28px #1d31421a;color:var(--studio-ink)}
+.report-cover{background:#182f47;color:#fff;min-height:185px;padding:25px 31px;display:flex;flex-direction:column;justify-content:space-between}
+.report-cover h2{font-size:26px;line-height:1.2;color:white;margin:5px 0 9px}.report-cover p{margin:0;color:#c9d8e1;font-size:12px}
+.report-brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:13px}.report-brand img{max-width:120px;max-height:36px;object-fit:contain}
+.report-brand-box{width:26px;height:26px;display:grid;place-items:center;background:var(--report-accent,#078b83);color:white;font-weight:800}
+.report-content{padding:22px 28px}.report-slot{position:relative;border:1px solid transparent;margin-bottom:12px;padding:14px 16px;min-width:0;break-inside:avoid}.report-paper.editing .report-slot{border-color:#e1e8ed;cursor:pointer}.report-paper.editing .report-slot:hover{border-color:#b1d7d2}.report-paper.editing .report-slot.selected{border:2px solid var(--studio-teal);padding:13px 15px;background:#f8fcfb}
+.report-slot h3{font-size:14px;margin:0 0 12px}.report-slot p{font-size:12px;line-height:1.6}
+.report-slot-tools{display:flex;position:absolute;top:3px;right:4px;gap:2px;z-index:2;background:#fff;border:1px solid #e2e8ed}
+.report-slot-tools button{padding:3px 7px;min-width:24px;border:0;background:transparent;color:#596b7e;cursor:pointer}
+.drag-indicator{padding:4px 6px;color:#72849b;cursor:grab}
+.report-metric{font-size:31px;font-weight:800;color:var(--report-accent,#078b83)}
+.report-footer{border-top:1px solid #e4ebef;padding:13px 30px;color:#6b7d90;font-size:10px}
+.report-data-table{font-size:11px}.report-data-table td,.report-data-table th{padding:7px}
+.template-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:15px}.template-card{background:white;border:1px solid var(--line);padding:20px;min-height:145px}.template-card h3{margin:11px 0;font-size:17px}.template-card p{font-size:12px;color:#64748b}.template-actions{display:flex;gap:6px;flex-wrap:wrap}
+.template-badge{font-size:10px;font-weight:800;letter-spacing:.08em;color:#087f83}
+.geo-bars{display:grid;gap:13px;padding:5px 0}.geo-row{display:grid;grid-template-columns:minmax(105px,160px) minmax(70px,1fr) 62px;align-items:center;gap:14px;font-size:12px}.geo-row strong{text-align:right}.geo-track{background:#e6edef;height:13px;overflow:hidden;border-radius:2px}.geo-track div{height:100%;min-width:2px}
+.geo-layout{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(270px,1fr);gap:16px}.geo-layout>*,.two-col>*{min-width:0}
+.geo-summary{display:flex;gap:15px;flex-wrap:wrap}.geo-summary strong{display:block;font-size:26px;color:#152e46}.geo-summary span{font-size:11px;color:#607286}
+.check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:8px;padding:12px;background:#fafcfc;border:1px solid var(--line);margin-top:13px}.check-item{display:flex;gap:8px;align-items:center;font-size:12px;color:#33475c}.check-item input{accent-color:#078b83}
+.x-filter-panel{padding:18px;margin-bottom:18px}.x-filter-panel .field-line{margin-bottom:12px}
+.quality-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.quality-grid>div{padding:16px;background:#f1f6f8}.quality-grid strong{display:block;font-size:26px;color:#182f47}.quality-grid span{font-size:11px;color:#627589}
+.mini-note,.data-caption{font-size:11px;color:#687b8f;line-height:1.6}.data-caption{padding:13px 0}
+.notice{background:#fff9e9;border:1px solid #f1dfaa;padding:13px 16px;margin:0 0 18px;color:#6b551d;font-size:12px;line-height:1.5}
+.tag.warn{display:inline-block;background:#fff0db;color:#805615;border-radius:3px;padding:4px 8px;font-size:11px;font-weight:700}
+.two-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.toolbar-row{margin:13px 0}.inline-controls{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px}.inline-controls select{margin-left:9px}
+#x-campaign-editor{margin-top:16px}
+#x-column-picker[hidden]{display:none}
+#print-report{display:none}
+@media(max-width:1200px){.report-studio-layout{grid-template-columns:180px minmax(0,1fr)}.studio-inspector{position:static;grid-column:1 / -1;max-height:none}.report-stage{padding:12px}}
+@media(max-width:780px){.report-studio-layout,.geo-layout,.two-col{display:grid;grid-template-columns:minmax(0,1fr)}.studio-palette,.studio-inspector{position:static;max-height:none}.studio-palette{padding:12px}.component-list{grid-template-columns:repeat(2,minmax(0,1fr))}.report-stage{padding:8px}.report-content{padding:12px}.report-cover{padding:19px}.report-cover h2{font-size:21px}.geo-row{grid-template-columns:100px minmax(50px,1fr) 45px;gap:6px}.quality-grid{grid-template-columns:repeat(2,1fr)}.report-toolbar .field{width:100%;min-width:0}.report-toolbar-actions{justify-content:start}}
+@media print{body>*:not(#print-report){display:none!important}#print-report{display:block!important}#print-report .report-paper{box-shadow:none;max-width:none;width:100%;min-height:0}#print-report .report-cover{print-color-adjust:exact;-webkit-print-color-adjust:exact}#print-report .report-slot{border:0!important;margin-bottom:10px}#print-report .report-content{padding:22px 28px}@page{size:A4;margin:13mm}}

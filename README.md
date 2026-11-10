@@ -1,37 +1,57 @@
-# META Reporting — GitHub Pages demonstration
+# META Reporting — Expanded GitHub Pages Demonstration
 
-A complete **static, browser-based demo** for a fictional network of eight MPs. This is a *demonstration only*: all Pages, constituencies, followers, posts, engagement, advertising results and campaigns are synthetic. No authentication, Facebook access token, database or Google Sheet is connected.
+A static, browser-based **fictional Facebook network analytics** demonstration. All MPs, Pages, location distributions, posts, campaigns, follower figures and advertising performance figures are simulated. **No real Meta API connection is included.**
 
-## What works
+## What's new in this release
 
-- Responsive overview with charts and KPIs
-- Searchable MP directory and individual account dashboards
-- Sortable, metric-selectable league table
-- Side-by-side MP comparison
-- Audience charts and posting activity calendar
-- Searchable content explorer and keyword campaign monitor
-- Advertising results and filters
-- CSV downloads and browser print/PDF for an individual account
-- Global reporting period (7, 30, 90 or 365 days)
+- **Visual Report Studio:** Add, remove and drag/reorder report components; adjust account, title, metric, colours, logo URL and commentary. Preview results. Export an editable `.pptx`, print/save as PDF, and save report templates **in your own browser**.
+- **Templates and configuration:** Save/duplicate/delete templates; export/import templates as JSON; inspect local report history; configure illustrative schedules. **Schedules are saved as examples and do not send reports or execute automatically.**
+- **Audience geography:** Simulated follower percentages by city and country, configurable city groups for a descriptive local-area estimate, CSV download, and a geography component in the report builder. **City labels are not parliamentary constituency boundaries.**
+- **Custom league table:** Choose metrics and visible columns, save named views, export CSV.
+- **Expanded campaigns:** Edit keyword rules and manually exclude irrelevant post matches.
+- **Advertising explorer:** Campaign, account and daily reporting views from the fictional dataset.
+- **Connections and diagnostics:** Documentation of permissions and metrics to validate when a secure live integration is added. It does not test the API.
+- Existing **Overview, Accounts, Compare MPs, Audience, Content Explorer and Activity Monitor** remain available.
 
-## Publish on GitHub Pages
+## Publish the update to your existing GitHub repository
 
-1. Create a new repository, for example `meta-reporting-demo`.
-2. Upload **`index.html`**, **`styles.css`**, **`app.js`** and **`.nojekyll`** to the repository root.
-3. Open **Settings → Pages**.
-4. Under **Build and deployment**, select **Deploy from a branch**, then select `main` and `/ (root)`; save.
-5. GitHub will provide a URL typically resembling `https://YOUR-USERNAME.github.io/meta-reporting-demo/`.
+Your current site is configured from the `main` branch and `/ (root)` folder.
 
-For a public demonstration, a public GitHub repository is simplest. Do **not** upload API keys, real Meta data, passwords or private spreadsheets. **GitHub Pages is publicly accessible, including when source is stored in a private repository.**
+1. Extract this ZIP.
+2. Open your existing `meta-reporting-demo` repository on GitHub.
+3. Select **Add file → Upload files**.
+4. Upload **all the files inside this folder** directly to the repository root. This includes `index.html`, `styles.css`, `extensions.css`, `app.js`, `extensions.js`, `jszip.min.js`, `pptxgen.min.js`, `.nojekyll`, `README.md`, and the licence notices.
+5. GitHub may warn that some filenames already exist; accept the replacements, then **Commit changes**.
+6. Your existing GitHub Pages deployment should publish the update automatically. If the old interface persists, perform a hard refresh or open a private browser window.
 
-## Local preview
+**Do not upload the outer folder as a nested folder, and do not upload the ZIP itself.**
 
-Open `index.html` in a browser. No build step or third-party JavaScript libraries are required.
+## Security and accuracy
 
-## Technical notes
+The public GitHub Pages website is a **demo only**. Never commit Meta access tokens, real personal or constituent data, API secrets or unpublished reports to it. No server-side authentication, live Meta data ingestion, automated report delivery or persistent multi-user database is implemented.
 
-- Date range is anchored to **31 October 2026**, the end date of the fictional dataset, so the charts are populated regardless of the day you view the demo.
-- Data is generated deterministically in the browser in `app.js`. It is not pulled from Meta or Google Sheets.
-- Reports are client-side CSV files or the browser's print/PDF feature; **server-side editable PowerPoint generation, real user accounts, scheduling and email delivery are not implemented**.
-- For the future private production app, move Meta API calls, credentials, user authorisation, ingestion and report jobs to a secure backend/database. Do not put tokens in this static frontend.
-- GitHub Pages is suitable for this non-commercial prototype, not as the only infrastructure for a private production SaaS platform.
+Report templates, saved league-table views, geographic groups, local campaign exclusions and schedule settings live in the current browser's `localStorage`. They do not sync between devices. Export your templates as JSON if you want a backup.
+
+The follower geography feature uses illustrative percentages, **not** Meta Page Insights. For production, an authenticated backend must determine which geographic follower breakdowns the authorised Page actually supports, verify metric fields/periods against its Graph API version and Page permissions, and account for aggregation/suppression and non-constituency geographic boundaries.
+
+PowerPoint export uses a bundled browser-side library and creates editable text and shapes; not every browser chart is reproduced as an editable PowerPoint chart. PDF export uses the browser print dialogue.
+
+## Files
+
+- `index.html` — website shell and navigation
+- `styles.css` — original dashboard styling
+- `extensions.css` — report studio, geography, filters and print styling
+- `app.js` — synthetic dataset and original dashboards
+- `extensions.js` — report studio, geography, deeper explorer and local settings
+- `jszip.min.js` and `pptxgen.min.js` — bundled open-source PowerPoint export dependencies
+- Licence notices — third-party library licences
+- `.nojekyll` — disables Jekyll processing on GitHub Pages
+
+## Testing performed
+
+- JavaScript syntax checked with Node.js.
+- Tested rendering of all expanded views in headless Chromium with the provided demo data.
+- Tested adding report components, saving a template, switching tabs, and changing league table columns.
+- Tested and generated a `.pptx` download in headless Chromium.
+
+A full live Meta API integration and cross-browser production test remain outstanding.
