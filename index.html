@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#14283e">
+  <meta name="description" content="META Reporting – fictional Facebook network analytics demonstration.">
+  <title>META Reporting | Demonstration</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <a href="#overview" class="brand" aria-label="META Reporting home"><span class="brand-mark">M</span><span><strong>META Reporting</strong><small>Network intelligence</small></span></a>
+      <div class="sidebar-label">WORKSPACE</div>
+      <nav id="navigation" aria-label="Main navigation">
+        <a href="#overview" data-view="overview"><span>◫</span> Overview</a>
+        <a href="#accounts" data-view="accounts"><span>▦</span> MPs & accounts</a>
+        <a href="#league" data-view="league"><span>≡</span> League table</a>
+        <a href="#compare" data-view="compare"><span>⇄</span> Compare MPs</a>
+        <a href="#audience" data-view="audience"><span>⌁</span> Audience</a>
+        <a href="#content" data-view="content"><span>▤</span> Content explorer</a>
+        <a href="#activity" data-view="activity"><span>▦</span> Activity monitor</a>
+        <a href="#campaigns" data-view="campaigns"><span>◈</span> Campaigns</a>
+        <a href="#advertising" data-view="advertising"><span>◎</span> Advertising</a>
+        <a href="#reports" data-view="reports"><span>⇩</span> Reports</a>
+      </nav>
+      <div class="sidebar-bottom"><span class="status-dot"></span> Demonstration workspace <small>Fictional MPs · Simulated data</small></div>
+    </aside>
+    <div class="main-wrap">
+      <header class="topbar">
+        <button id="menu-toggle" class="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+        <div class="breadcrumb">META Reporting <span>/</span> <strong id="breadcrumb-current">Overview</strong></div>
+        <div class="top-actions"><label for="global-period" class="sr-only">Reporting period</label><select id="global-period" aria-label="Reporting period"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Full data year</option></select><span class="demo-chip">DEMO DATA</span></div>
+      </header>
+      <main id="main-content" tabindex="-1" aria-live="polite"></main>
+    </div>
+  </div>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
