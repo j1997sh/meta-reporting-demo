@@ -12,6 +12,7 @@
   <script src="pptxgen.min.js" defer></script>
   <script src="app.js" defer></script>
   <script src="extensions.js" defer></script>
+  <script src="supabase-bridge.js" defer></script>
 </head>
 <body>
   <div class="app">
@@ -36,7 +37,7 @@
       <header class="topbar">
         <button id="menu-toggle" class="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">☰</button>
         <div class="breadcrumb">META Reporting <span>/</span> <strong id="breadcrumb-current">Overview</strong></div>
-        <div class="top-actions"><label for="global-period" class="sr-only">Reporting period</label><select id="global-period" aria-label="Reporting period"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Full data year</option></select><span class="demo-chip">DEMO DATA</span></div>
+        <div class="top-actions"><label for="global-period" class="sr-only">Reporting period</label><select id="global-period" aria-label="Reporting period"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="365">Full data year</option></select><span class="demo-chip" id="database-status" data-status="loading">CONNECTING TO SUPABASE…</span></div>
       </header>
       <main id="main-content" tabindex="-1" aria-live="polite"></main>
     </div>

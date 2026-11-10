@@ -1,3 +1,13 @@
+# META Reporting — GitHub + Supabase connected demonstration
+
+This release connects the existing GitHub Pages website to the **META TRACKING / j1997sh’s Project** Supabase PostgreSQL database. The browser loads the fictional MP directory, follower snapshots, post analytics, advertising campaign metrics, geographical estimates and a report template preset through Supabase's REST API.
+
+**The connection is read-only and DEMO ONLY.** Supabase Row Level Security allows anonymous reads only for approved fictional demo data. Real Meta data, other organisations, membership records, report jobs, secrets and confidential material are not exposed. There are no anonymous update/insert policies. The browser uses a publishable API key, not a secret.
+
+The visual report builder still saves user edits in browser localStorage; automatic schedules and user authentication are not yet implemented. Real Meta API tokens must never appear in GitHub Pages.
+
+**Publish:** Upload all files in this directory to the root of the existing GitHub repo `meta-reporting-demo`. Commit. No GitHub Pages settings need changing. Check the status label in the top bar: `SUPABASE · DEMO DATA` indicates a successful fetch. `LOCAL DEMO · DATABASE OFFLINE` means the local fictional fallback is being shown instead. Open the browser console for a specific error.
+
 # META Reporting — Expanded GitHub Pages Demonstration
 
 A static, browser-based **fictional Facebook network analytics** demonstration. All MPs, Pages, location distributions, posts, campaigns, follower figures and advertising performance figures are simulated. **No real Meta API connection is included.**
