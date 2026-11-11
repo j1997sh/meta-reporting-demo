@@ -62,3 +62,8 @@
 - Connected the new overview to existing fictional Page, post, comments and advertising datasets; no new public access policies or credentials.
 - Missing Meta API data is labelled unavailable, with a separate private-workspace empty state.
 - Preserved prior Report Studio, Page analytics, community conversations, anonymous colleague benchmarks and Supabase integrations.
+
+## 5.4 — Detailed report templates and exports
+- Added five professionally structured report presets, with comprehensive performance, audience, publishing, engagement, video, comments, advertising and methodology sections.
+- Added denser document preview, editable PowerPoint slide export and print-oriented styling.
+- Existing Supabase / authentication functionality retained; asynchronous cloud report worker output is unchanged and remains a simpler export.
