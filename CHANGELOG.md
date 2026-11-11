@@ -41,3 +41,7 @@
 - Private mode: `meta-peer-benchmarks` Supabase Edge Function returns grouped figures only after checking the logged-in user's own Page access and requiring at least five eligible other Pages. Does not return peer identities, individual results, or ranks.
 - Missing Meta post-format/engagement inputs show unavailable, not invented values.
 - No changes to the HQ report builder, login, database schema or original reporting routes.
+
+## 5.2.1 — Peer benchmark terminology (11 November 2026)
+- Changed network midpoint/peer midpoint phrasing to “Your colleagues” throughout the MP comparison screen and notes.
+- Preserved the explanation that the statistic is an anonymous median of eligible office-level results.

@@ -31,12 +31,12 @@ function formatReport(data){
  for(const t of TYPES){const m=data.own.formats[t],b=data.reference[t];if(!b||b.share==null||b.perPost==null||m.share==null)continue;
    // Only surface measurable differences, and never imply causal superiority.
    if(m.count<3 && b.share>=.2)insights.push(`There are fewer than three ${t.toLowerCase()} posts in this period, so an engagement comparison for this format is unreliable.`);
-   else if(m.count>=3 && m.share < b.share*.75)insights.push(`${t} accounts for ${percent(m.share)} of your posts, compared with an anonymous network midpoint of ${percent(b.share)}. This describes different publishing mixes, not a recommended target.`);
+   else if(m.count>=3 && m.share < b.share*.75)insights.push(`${t} accounts for ${percent(m.share)} of your posts, compared with ${percent(b.share)} for your colleagues. This describes different publishing mixes, not a recommended target.`);
  }
  if(!insights.length)insights.push('Your publishing format mix is available above. Review differences alongside posting frequency, accessibility, subject matter and data completeness.');
- return `${intelScopeBanner()}<div class="benchmark-intro"><h2>How does our content mix compare?</h2><p>Compare the formats used by your Page with anonymised, aggregated statistics from other fictional offices. Individual colleagues and their figures are never revealed.</p></div>
-  <div class="benchmark-cards"><div><span>Your published posts</span><strong>${number(data.own.n)}</strong><small>Selected ${data.period}-day period</small></div><div><span>Comparison</span><strong>Anonymous</strong><small>Aggregate midpoint only</small></div><div><span>Metrics</span><strong>Content mix</strong><small>Format share and interactions per post</small></div></div>
-  <section class="panel"><div class="panel-header"><h2>Content formats</h2><span class="subtle">Fictional reporting period</span></div><div class="panel-body"><div class="table-wrap"><table class="benchmark-table"><thead><tr><th>Format</th><th>Your posts</th><th>Your mix</th><th>Network midpoint</th><th>Your interactions/post</th><th>Network midpoint</th></tr></thead><tbody>${rows}</tbody></table></div><p class="intel-footnote">Midpoints are medians of eligible office-level measures, not averages of all posts. Engagement is unadjusted and does not establish why results differ.</p></div></section>
+ return `${intelScopeBanner()}<div class="benchmark-intro"><h2>How you compare with your colleagues</h2><p>See how your content formats compare with your colleagues. Colleague figures are combined into a single anonymous median; no individual offices are identified.</p></div>
+  <div class="benchmark-cards"><div><span>Your published posts</span><strong>${number(data.own.n)}</strong><small>Selected ${data.period}-day period</small></div><div><span>Comparison</span><strong>Your colleagues</strong><small>Anonymous median</small></div><div><span>Metrics</span><strong>Content mix</strong><small>Format share and interactions per post</small></div></div>
+  <section class="panel"><div class="panel-header"><h2>Content formats</h2><span class="subtle">Fictional reporting period</span></div><div class="panel-body"><div class="table-wrap"><table class="benchmark-table"><thead><tr><th>Format</th><th>Your posts</th><th>Your mix</th><th>Your colleagues</th><th>Your interactions/post</th><th>Your colleagues</th></tr></thead><tbody>${rows}</tbody></table></div><p class="intel-footnote">“Your colleagues” shows the median across eligible offices, not the average of all their posts. Engagement is unadjusted and does not establish why results differ.</p></div></section>
  <section class="panel"><div class="panel-header"><h2>What the figures suggest checking</h2></div><div class="panel-body"><div class="benchmark-notes">${insights.map(x=>`<p>${safe(x)}</p>`).join('')}</div><p class="intel-footnote">These are descriptive content-workflow observations, not political effectiveness scores or instructions for influencing voters. A different format mix does not itself cause higher engagement.</p></div></section>`;
 }
 function privateBody(){
@@ -45,12 +45,12 @@ function privateBody(){
  if(remoteKey!==key){remoteKey=key;remote=null;loadPrivate(key)}
  if(busy)return intelEmpty('Checking whether enough authorised Page data is available for an anonymous comparison…');
  if(!remote)return intelEmpty('Comparison data is currently unavailable. Other offices’ Page figures are not accessible from your workspace.');
- if(remote.status==='insufficient')return intelEmpty('An anonymous network comparison needs data from at least five other eligible offices. No individual office results will be shown.');
+ if(remote.status==='insufficient')return intelEmpty('A comparison with your colleagues needs data from at least five other eligible offices. No individual office results will be shown.');
  if(remote.status==='no_data')return intelEmpty('Your Page has no verified post-format data for this period. Connect a Page and allow its data to sync.');
  if(remote.status==='error')return intelEmpty('The comparison could not be loaded. Please try again.');
  const d=remote;
  const table=TYPES.map(t=>{let a=d.own?.formats?.[t]||{},b=d.reference?.[t]||{};return `<tr><th>${t}</th><td>${number(a.count)}</td><td>${percent(a.share)}</td><td>${percent(b.share)}</td><td>${number(a.perPost)}</td><td>${number(b.perPost)}</td></tr>`}).join('');
- return `${intelScopeBanner()}<p class="intel-footnote">Anonymous network benchmarks are displayed only when the privacy threshold is met. No peer account names or underlying records are returned.</p><section class="panel"><div class="panel-header"><h2>Publishing formats</h2></div><div class="panel-body"><div class="table-wrap"><table class="benchmark-table"><thead><tr><th>Format</th><th>Your posts</th><th>Your mix</th><th>Peer midpoint</th><th>Your interactions/post</th><th>Peer midpoint</th></tr></thead><tbody>${table}</tbody></table></div></div></section><p class="intel-footnote">Aggregates are descriptive only and do not imply causal gains from changing format. Missing metrics are not treated as zero.</p>`;
+ return `${intelScopeBanner()}<p class="intel-footnote">Your colleagues’ figures are shown as an anonymous group median only when enough offices have data. No peer account names or underlying records are returned.</p><section class="panel"><div class="panel-header"><h2>Publishing formats</h2></div><div class="panel-body"><div class="table-wrap"><table class="benchmark-table"><thead><tr><th>Format</th><th>Your posts</th><th>Your mix</th><th>Your colleagues</th><th>Your interactions/post</th><th>Your colleagues</th></tr></thead><tbody>${table}</tbody></table></div></div></section><p class="intel-footnote">Aggregates are descriptive only and do not imply causal gains from changing format. Missing metrics are not treated as zero.</p>`;
 }
 async function loadPrivate(key){
  if(busy)return;busy=true;
@@ -63,7 +63,7 @@ async function loadPrivate(key){
  finally{busy=false;if(state.view===route)render()}
 }
 function view(){const mode=intelDemo(),picker=mode?`<div class="intel-toolbar">${intelPagePicker()}</div>`:'';
- return header('Peer benchmarks','Anonymous content format and engagement comparisons · No colleague identities')+picker+(mode?formatReport(demoStats()):privateBody());
+ return header('Peer benchmarks','How you compare with your colleagues · No individual office identities')+picker+(mode?formatReport(demoStats()):privateBody());
 }
 const oldView=intelView;intelView=function(){return state.view===route?view():oldView()};
 const oldEnforce=intelEnforceRoute;intelEnforceRoute=function(){if(state.view===route && intelIsOffice())return;oldEnforce()};
@@ -82,7 +82,7 @@ render=function(){oldRender();if(!intelIsOffice())return;
  }
  // Make the new view discoverable from the office start page.
  if(state.view==='office-home'){const list=document.querySelector('.intel-feature-list');if(list&&!list.querySelector('[data-peer-benchmark]')){
-  const b=document.createElement('button');b.dataset.peerBenchmark='yes';b.innerHTML='<strong>Peer benchmarks</strong><span>See anonymous content mix and typical interactions by format.</span>';list.appendChild(b);
+  const b=document.createElement('button');b.dataset.peerBenchmark='yes';b.innerHTML='<strong>Peer benchmarks</strong><span>Compare your content mix and typical interactions with your colleagues.</span>';list.appendChild(b);
  }}
 };
 document.addEventListener('click',e=>{if(e.target.closest('[data-peer-benchmark]'))navigate(route)});

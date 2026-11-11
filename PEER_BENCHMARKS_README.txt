@@ -27,3 +27,5 @@ Testing:
 - New JavaScript passes node --check.
 - Chromium browser rendering could not be verified in the available environment (blocked by administrator).
 - Secure Edge Function deployment was accepted as ACTIVE; real signed-in / live Meta data end-to-end test is outstanding.
+
+5.3 copy adjustment: all visible network/peer midpoint labels now read “Your colleagues”, with median and anonymity caveats retained.
