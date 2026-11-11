@@ -45,3 +45,13 @@
 ## 5.2.1 — Peer benchmark terminology (11 November 2026)
 - Changed network midpoint/peer midpoint phrasing to “Your colleagues” throughout the MP comparison screen and notes.
 - Preserved the explanation that the statistic is an anonymous median of eligible office-level results.
+
+## v5.3 — Analytics Overview (11 November 2026)
+
+- Introduced a comprehensive and configurable HQ / office overview with compact metrics and interactive panels.
+- Added Executive, Detailed Analytics and Community & Content presets.
+- Added a searchable metric explorer, availability/method definitions and catalogue CSV export.
+- Added local dashboard customisation: metric selection, chart measure, section ordering, visibility and collapse states.
+- Connected the new overview to existing fictional Page, post, comments and advertising datasets; no new public access policies or credentials.
+- Missing Meta API data is labelled unavailable, with a separate private-workspace empty state.
+- Preserved prior Report Studio, Page analytics, community conversations, anonymous colleague benchmarks and Supabase integrations.
