@@ -34,3 +34,10 @@
 - Replaced sidebar icons with typographic hierarchy, reduced sidebar size and refined all major components.
 - Renamed Office Intelligence to **Insights & Actions** consistently.
 - Preserves 5.0 Supabase connectivity, users, reports, social listening and automations.
+
+## 5.2 — Peer benchmarks (11 November 2026)
+- Added **Peer benchmarks** to individual MP office Analytics navigation and home screen.
+- Fictional demo: displays each office's video, photo, link and text mix alongside anonymous network medians; engagement per post is descriptive.
+- Private mode: `meta-peer-benchmarks` Supabase Edge Function returns grouped figures only after checking the logged-in user's own Page access and requiring at least five eligible other Pages. Does not return peer identities, individual results, or ranks.
+- Missing Meta post-format/engagement inputs show unavailable, not invented values.
+- No changes to the HQ report builder, login, database schema or original reporting routes.
