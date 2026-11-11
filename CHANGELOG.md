@@ -1,15 +1,28 @@
-# META Reporting changes
+# META Reporting — Changelog
 
-## v4.0 — Supabase cloud workspace
+## 5.0 — 11 November 2026
 
-- Added Supabase Auth login/sign-up and single-use private workspace activation.
-- Added owner/admin/analyst/viewer membership controls and an authenticated invitation backend.
-- Added three private report templates on workspace activation; version history for template updates.
-- Connected Report Studio saves and league table saved views to Supabase.
-- Added private report file storage, signed download links, PDF/PowerPoint exports and report job history.
-- Added automatic daily/weekly/monthly scheduling with UK-time scheduling and optional review approval.
-- Deployed and tested an Edge Function worker that generates PDF and PPTX files from synthetic data.
-- Added organisation admin pages and restricted user management.
-- Preserved prior public fictional analytics, audience geography, and read-only Supabase demonstration bridge.
+- Distinct HQ Intelligence and MP Office workspace interfaces, selectable in public fictional demonstration mode.
+- Public Social Listening: 64,485 synthetic comments and 27,698 aggregate topic/day rows in Supabase.
+- Topic classification, questions for review, approximate language/tone breakdowns, 7-day activity comparisons and keyword frequency in loaded comments.
+- Six generic shared operating practices, 48 fictional practice-documentation indicators and an anonymous demonstration of cross-office uptake.
+- Office Insights: 48 fictional explanatory observations linked to sample record counts.
+- Action Centre: 48 seeded tasks; private tasks can be created, reviewed, assigned to self and updated by authorised users.
+- Private MP office Page assignments with database-enforced row restrictions.
+- HQ-only office invitation Edge Function and HQ-controlled private report sharing via signed URLs.
+- Incremental topic/day aggregate refresh database trigger.
+- HQ meeting-pack template creator integrated with existing Report Studio.
+- No Meta tokens, service-role credentials or real constituent comments in the browser.
 
-Known limits: No live Meta API token or real account data has been connected; no email provider; server-generated exports are simplified relative to the visual web report canvas.
+## 4.0 — 10 November 2026
+
+- Supabase authentication, private workspaces and report templates.
+- Cloud report library, scheduled report workers, private PDF/PPTX storage and role-based organisation administration.
+
+## 3.0 — 10 November 2026
+
+- Read-only Supabase-backed fictional follower, post, ad and geography analytics.
+
+## 2.0 — 10 November 2026
+
+- Visual Report Studio, custom leagues, geography, campaign exploration and report exports.

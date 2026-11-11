@@ -1,88 +1,95 @@
-# META Reporting 4.0 — Secure Cloud Workspace
+# META Reporting 5.0 — HQ Intelligence and MP Office Workspaces
 
-**Website:** https://j1997sh.github.io/meta-reporting-demo/
+This is the **complete existing GitHub Pages application**, upgraded from META Reporting 4.0. It preserves the existing overview, audience analytics, account comparison, league table, advertising, content explorer, Report Studio, cloud workspace, automated PDF/PPTX report generation and Supabase integration.
 
-The public site continues to display **fictional Facebook analytics**. A separate, authenticated Supabase workspace enables durable report templates, user roles, report jobs, private PDF/PowerPoint exports and scheduled reporting. There is **no real Meta API connection yet**.
+**Current website:** https://j1997sh.github.io/meta-reporting-demo/
 
-## Installation: existing GitHub Pages website
+## Publish the website
 
-1. Extract `META_Reporting_Cloud_Workspace_v4.zip`.
-2. Open the existing repository `j1997sh/meta-reporting-demo` on GitHub.
-3. Use **Add file → Upload files**. Upload the **files inside** the `meta-reporting-demo/` directory into the **root of the repository**, replacing same-named existing files. Do not upload the directory itself.
-4. Commit. Leave GitHub Pages configured for the `main` branch and `/ (root)`.
-5. Refresh https://j1997sh.github.io/meta-reporting-demo/ after GitHub Pages publishes the update.
+1. Download and extract `META_Reporting_HQ_and_Office_Intelligence_v5.zip`.
+2. Open the **existing** GitHub repository: `j1997sh/meta-reporting-demo`.
+3. Click **Add file → Upload files**. Select **all files inside** the extracted `meta-reporting-demo` folder, not the folder itself.
+4. Upload them to the repository **root**, replacing existing files, and commit.
+5. Leave GitHub Pages configured to deploy from `main` / `/ (root)`.
+6. Refresh the GitHub Pages website once GitHub has published the commit.
 
-**Important new files:** `cloud-workspace.js`, `cloud-workspace.css`. Do not omit these. `index.html` and `app.js` have also changed.
+**New required files:** `intelligence.js`, `intelligence.css`. The modified `index.html` loads them. Both must be present.
 
-## One-time Supabase Authentication settings
+The Supabase database changes and Edge Functions for this release have **already been applied** to the existing META TRACKING project, ref `hlwqgzhtmhmwfywiiwdx`. **Do not rerun schema or data-seeding SQL.** The website ZIP contains no administrator secrets.
 
-In the existing Supabase **META TRACKING → j1997sh's Project** dashboard:
+## Two different interfaces
 
-1. Open **Authentication → URL Configuration**.
-2. Set **Site URL** to `https://j1997sh.github.io/meta-reporting-demo/`.
-3. Add **Redirect URL**: `https://j1997sh.github.io/meta-reporting-demo/**`.
-4. Keep email confirmation enabled if available. Supabase's built-in email service can have rate limits; a custom SMTP provider is recommended before inviting numerous people.
+Use the **workspace mode** selector in the top bar:
 
-No API secret or service-role key needs to be entered in GitHub. The publishable key in the browser is public by design; access is controlled through RLS and authenticated functions.
+- **HQ demo**: Existing network reporting plus HQ Intelligence, Social Listening, Office Insights, Action Centre, meeting packs, office-access management and report sharing navigation. Public fictitious data only.
+- **MP office demo**: Select any of the eight fictitious MPs and view their Page analytics, community conversations, office insights, action centre and reports interface. All sample figures and authors are fictional.
+- **My private workspace**: Available after signing in and activating a private Supabase organisation (or after being invited by HQ). Requires authentication. The private workspace is **not populated with the public fictional posts/comments**; real account data is absent until an authorised Meta integration is implemented.
 
-## Activate your own workspace
+A signed-in **office-only** member is restricted to their assigned private Page(s) and cannot switch to the HQ view. Access is limited in the **database**, not merely by hidden menu items.
 
-1. On the published website click **Sign in → Create account** and verify your email if requested.
-2. Sign in; open **My workspace**.
-3. Download the **separately delivered** `META_Reporting_Private_Setup_Code.txt` and enter its one-time activation code on the website. **Never upload that code file to GitHub.**
-4. Name the workspace and activate it. This code can only be used once.
-5. Three starter templates are added to your private organisation: Weekly MP Performance, Organisation Performance and Advertising Review.
+## Social Listening features
 
-The initial user becomes the workspace owner. Other users join through invitations in **Organisation admin**; the one-time setup code is not shared with them.
+- 64,485 entirely fictional comments / replies, associated with the eight fictional Facebook Pages and approximately 2,942 fictional Page posts.
+- 27,698 per-Page, per-day topic summary rows stored in Supabase.
+- Twelve example community-service topic labels, including transport, roads, planning, schools and healthcare.
+- Question detection, unanswered/internal-review status, and approximate language/tone categories.
+- Comment-level examples, keyword frequency from loaded sample comments, conversation summaries and week-to-week theme activity.
+- Filtering to a single MP Page or the whole HQ network.
+- The comment classifications and summary text are **rule-based and simulated**, not the output of a live LLM. They are not survey evidence, electoral opinions or reliable sentiment about individual people.
 
-## What is live and tested on Supabase
+Only synthetic author labels are present in the demonstration. Future real-comment ingestion should minimise identifying information and implement privacy/retention controls, review of permissions and Meta API coverage checks.
 
-- 17 original reporting tables plus template version history; Row Level Security and private Storage policies.
-- A database-backed authenticated organisation with `owner`, `admin`, `analyst` and `viewer` roles. Owners/admins can edit reporting records; analysts/viewers can read.
-- A protected invite/member management Edge Function (`meta-members`).
-- A custom Report Studio and saved report templates, persisted in your own workspace database.
-- Cloud-saved league table configurations and template version history (previous template versions are stored in the database; a visual restore button is not yet present).
-- Private report storage (`meta-reports` bucket), with signed download URLs.
-- An automatic report worker Edge Function (`meta-report-worker`), authenticated by a secret held inside Supabase Vault.
-- Two active PostgreSQL cron jobs: queue checks every 15 minutes, with report processing every 15 minutes, offset by five minutes.
-- Weekly, daily and monthly schedules using Europe/London local time; weekly defaults to Monday at 09:00 UK time. Supports organisation and individual-MP reports, plus all-eight-MP bulk reports.
-- An end-to-end automated PDF/PPTX export was generated and verified in private Supabase Storage using a synthetic QA job.
+## Office Insights / Shared Practice / Action Centre
 
-## Using the new website
+- Forty-eight fictional, evidence-linked operational observations across eight MPs (six per Page).
+- Forty-eight seeded fictional office action records with statuses and sample deadlines.
+- Six generic, fictional shared operational practices, with 48 per-office practice documentation indicators.
+- Office users can review recurring factual questions and check documentation, accessibility, verified public-service links, publishing calendars and internal workflows.
+- Anonymised practice-documentation counts in public demonstration views; **private office views do not reveal peer offices' private metrics**.
+- In the private workspace, authorised staff can add tasks, assign tasks to themselves, update task status, record due dates, mark comments as internally reviewed, acknowledge or dismiss observations, and self-report office practices. These operations update Supabase under Row Level Security.
 
-**My workspace**: Sign in, activate your organisation, review cloud template and report counts.
+Operational suggestions are *for human review*, are evidence-linked wherever possible, and do not recommend political persuasion or electoral targeting.
 
-**Report studio**: Use the existing visual component editor. Click **Save template** to save to Supabase while signed in. Without sign-in, edits continue to save locally only.
+## HQ access and individual-office access
 
-**Cloud report library**: Select a saved template and scope; generate a PDF and PowerPoint. Create schedules, approve review-required reports, inspect job history, and download finished reports through short-lived signed URLs.
+The private HQ owner creates Page records from **Organisation admin** (the existing functionality) and then opens **MP office access** to invite staff to a particular Page. Roles: `office_admin`, `office_staff`, `office_viewer`.
 
-**Organisation admin**: Rename the organisation, add/enable/disable/remove Page records, invite users and change their roles.
+Invitations are issued through a protected Supabase Edge Function. The office user has a `viewer` membership at the organisation level, plus a separate Page assignment. Authenticated Row Level Security policies isolate Page-level rows, comments, insights, actions, practice records and relevant aggregate reporting. Existing HQ owner/admin/analyst/viewer roles are preserved; a user who is already HQ owner/admin/analyst cannot be silently reassigned to an office-only role.
 
-**League table**: Click **Save current view** while signed in to persist your column/sort selection in Supabase, available on another device.
+**HQ Report Sharing:** Select a finished cloud report and the destination Page. The `meta-report-access` Edge Function authorises office recipients based on the Page assignment and returns a short-lived signed URL for a private report file. **HQ must review a report before sharing**, particularly if it contains information about other MPs.
 
-## Important scope and limitations
+## Report Studio and meeting packs
 
-- **All reporting metrics are currently simulated**. The public demonstration dataset is intentionally kept separate from the private workspace.
-- The automated server worker currently produces **editable PowerPoint text and shapes** and a structured PDF, but does **not reproduce every browser chart or drag-and-drop pixel placement**. The browser's full visual report designer remains the richer interactive representation.
-- **Email delivery is not configured**. Scheduled reports generate files privately; they are not automatically emailed. An email provider and recipient/consent controls are needed before enabling that feature.
-- The interface does not yet retrieve live Meta Page Insights, audience geography or Marketing API data. It is prepared for future server-side integration; never paste Meta tokens into GitHub files.
-- Do not use the public Pages demonstration to store confidential or sensitive data. Live customer data should remain behind authenticated Supabase access.
-- The Github Pages demo cannot host backend logic. Scheduled jobs and file generation already run server-side in Supabase.
+The **HQ Meeting Packs** section creates an editable, reusable Report Studio template containing a factual account-performance section, a simulated aggregate conversation summary, an office-action review and a data-quality disclaimer. Use the existing Report Studio Save action to persist the template to the private workspace when signed in.
 
-## Troubleshooting
+Existing server-side scheduled PDF/PPTX generation continues to use the v4 report worker. **New Social Listening and Office Insights components are added as text sections in this v5 meeting-pack template**; they are not yet a completely dynamic, server-rendered chart suite inside automated PDF/PPTX exports.
 
-**Sign up redirects to the wrong site:** Check Authentication → URL Configuration (Site URL and Redirect URLs).
+## Supabase implementation
 
-**Invitation never arrives:** Check spam and Supabase Auth email sending limits. You can still invite an existing Supabase user.
+Existing project: **META TRACKING / j1997sh's Project**, PostgreSQL 17 in Ireland.
 
-**Cloud SDK unavailable:** Ensure the browser can access the pinned Supabase JavaScript SDK from jsDelivr. Ad blockers and network restrictions may prevent it loading.
+New tables: `page_office_members`, `page_comments`, `conversation_topics_daily`, `office_observations`, `office_actions`, `shared_practices`, `report_shares`, `office_practice_adoption`.
 
-**No reports in the library:** Confirm a template was saved after signing in. Scheduled jobs run on cron intervals; press Refresh to retrieve the latest job status.
+Existing private table policies were tightened so office-assigned users cannot access an organisation-wide data feed. New foreign keys enforce that office rows refer to a Page in the **same organisation**. The updated indexes support recent comments, topics, actions and per-Page lookups. A private database trigger maintains daily topic aggregates when comments are inserted, updated or deleted. An insertion/deletion trigger test passed and left no lasting QA record.
 
-**Report requires approval:** Click **Approve** in the cloud library. The worker then generates the PDF/PPTX automatically on the next run.
+New Edge Functions (already deployed): `meta-office-manager` and `meta-report-access`. Both require a valid Supabase user session and check membership/ownership on the server. The functions have no service-role secret in browser JavaScript. The v4 `meta-members` and `meta-report-worker` functions remain available.
 
-**Supabase access denied:** Confirm you are signed into the account that owns the private organisation or have received an invitation.
+## Important limitations and next deployment steps
 
-## Security reminders
+- The **real Meta comments API is NOT connected**. For actual Page comments, a suitable Page token and approved scopes such as `pages_read_user_content` will be required, and data availability must be tested per Page before claiming coverage. Never put a Meta token into public GitHub code.
+- The fictional Page post/ads/followers dataset is separate from the private organisation database. Public demo and private data are not intermingled.
+- No live natural-language model has been integrated. Topic labels, tone tags and operational observations in the demo are synthetic/rule-based.
+- Only the underlying report-job and report-sharing flows have been implemented; an authenticated real office invited to the current private project has **not** been end-to-end tested because no authentication users or office assignments are currently present.
+- The public browser site is not automatically updated. Publishing the ZIP is still required.
+- Authentication → URL Configuration must include `https://j1997sh.github.io/meta-reporting-demo/` and `https://j1997sh.github.io/meta-reporting-demo/**` before production sign-in.
+- Supabase's security advisor continues to flag the pre-existing one-time activation function as a privileged callable function. This is an intentionally code-gated bootstrap endpoint, but it deserves an additional independent review before real constituent data is imported.
+- Automatic email delivery and live Meta API ingestion are not part of this release.
 
-The activation-code file is separate from the website ZIP. It must **never** be committed to GitHub. Real Meta user tokens, service-role keys, secrets and private report files must never be committed to the repository. Public demo read permissions are intentionally restricted to fictional rows; private reports and authentication records remain protected by Supabase.
+## Local validation performed
+
+- `node --check` verified all modified application JavaScript syntax.
+- Chromium local smoke tests exercised the HQ Intelligence, Social Listening, Office Insights, Action Centre, Meeting Packs, MP office overview, Page analytics, conversations and report interface; no JS errors under mocked/offline API responses.
+- Browser interaction smoke tests checked creation of an editable HQ meeting-pack template, navigation switching to MP office, and preventing office-mode navigation to HQ pages.
+- Verified Supabase schema, seeded record counts, anonymous visibility limited to fictional records, and security advisor results.
+
+This is an operational **demonstration and integration foundation**, not a validated real-data Facebook intelligence service.
