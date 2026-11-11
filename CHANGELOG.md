@@ -26,3 +26,11 @@
 ## 2.0 — 10 November 2026
 
 - Visual Report Studio, custom leagues, geography, campaign exploration and report exports.
+
+
+## 5.1 – Navigation & design refinement
+- Six primary HQ navigation headings, contextual expandable submenus and sectional tabs.
+- MP office navigation streamlined independently.
+- Replaced sidebar icons with typographic hierarchy, reduced sidebar size and refined all major components.
+- Renamed Office Intelligence to **Insights & Actions** consistently.
+- Preserves 5.0 Supabase connectivity, users, reports, social listening and automations.

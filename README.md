@@ -93,3 +93,7 @@ New Edge Functions (already deployed): `meta-office-manager` and `meta-report-ac
 - Verified Supabase schema, seeded record counts, anonymous visibility limited to fictional records, and security advisor results.
 
 This is an operational **demonstration and integration foundation**, not a validated real-data Facebook intelligence service.
+
+
+## Version 5.1 — interface refinement
+Upload **all files**, including `refinement.css` and `refinement.js`, to your existing GitHub Pages repository root. No database migration or Supabase change is required. This is a drop-in upgrade for the META Reporting 5.0 application. Navigation is grouped into Overview, Analytics, Insights & Actions, Reports, Accounts and Settings for HQ; office navigation is even simpler.
