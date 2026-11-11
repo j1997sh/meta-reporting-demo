@@ -22,22 +22,38 @@ function demoStats(){
 }
 function number(x){return x==null?'Not available':Math.round(x).toLocaleString('en-GB')}
 function percent(x){return x==null?'—':(x*100).toFixed(1)+'%'}
-function formatReport(data){
- const rows=TYPES.map(t=>{
-  const own=data.own.formats[t],ref=data.reference[t]||{};
-  return `<tr><th scope="row">${t}</th><td>${number(own.count)}</td><td>${percent(own.share)}</td><td>${percent(ref.share)}</td><td>${number(own.perPost)}</td><td>${number(ref.perPost)}</td></tr>`;
- }).join('');
- const insights=[];
- for(const t of TYPES){const m=data.own.formats[t],b=data.reference[t];if(!b||b.share==null||b.perPost==null||m.share==null)continue;
-   // Only surface measurable differences, and never imply causal superiority.
-   if(m.count<3 && b.share>=.2)insights.push(`There are fewer than three ${t.toLowerCase()} posts in this period, so an engagement comparison for this format is unreliable.`);
-   else if(m.count>=3 && m.share < b.share*.75)insights.push(`${t} accounts for ${percent(m.share)} of your posts, compared with ${percent(b.share)} for your colleagues. This describes different publishing mixes, not a recommended target.`);
+function comparisonCards(data){
+ const observations=[];
+ const formatName=t=>({Video:'video posts',Photo:'photos and graphics',Link:'link posts',Text:'text posts'})[t];
+ for(const t of TYPES){
+   const own=data.own?.formats?.[t]||{},other=data.reference?.[t]||{};
+   if(own.share==null||other.share==null)continue;
+   const diff=other.share-own.share;
+   if(Math.abs(diff)>=0.04){
+      observations.push({kind:'Content mix',format:t,title:diff>0?`Your colleagues publish a higher share of ${formatName(t)}`:`You publish a higher share of ${formatName(t)}`,
+        detail:`Your posts: ${percent(own.share)} · Your colleagues: ${percent(other.share)}. This is a difference in the publishing mix, not a recommended quota.`});
+   }
+   if(own.perPost!=null&&other.perPost!=null&&Math.abs(other.perPost-own.perPost)>=8){
+      observations.push({kind:'Recorded interactions',format:t,title:other.perPost>own.perPost?`Your colleagues' ${formatName(t)} recorded more interactions per post`:`Your ${formatName(t)} recorded more interactions per post`,
+        detail:`Your posts: ${number(own.perPost)} · Your colleagues: ${number(other.perPost)}. Different topics, audiences and timing can influence these figures.`});
+   }
  }
- if(!insights.length)insights.push('Your publishing format mix is available above. Review differences alongside posting frequency, accessibility, subject matter and data completeness.');
- return `${intelScopeBanner()}<div class="benchmark-intro"><h2>How you compare with your colleagues</h2><p>See how your content formats compare with your colleagues. Colleague figures are combined into a single anonymous median; no individual offices are identified.</p></div>
-  <div class="benchmark-cards"><div><span>Your published posts</span><strong>${number(data.own.n)}</strong><small>Selected ${data.period}-day period</small></div><div><span>Comparison</span><strong>Your colleagues</strong><small>Anonymous median</small></div><div><span>Metrics</span><strong>Content mix</strong><small>Format share and interactions per post</small></div></div>
-  <section class="panel"><div class="panel-header"><h2>Content formats</h2><span class="subtle">Fictional reporting period</span></div><div class="panel-body"><div class="table-wrap"><table class="benchmark-table"><thead><tr><th>Format</th><th>Your posts</th><th>Your mix</th><th>Your colleagues</th><th>Your interactions/post</th><th>Your colleagues</th></tr></thead><tbody>${rows}</tbody></table></div><p class="intel-footnote">“Your colleagues” shows the median across eligible offices, not the average of all their posts. Engagement is unadjusted and does not establish why results differ.</p></div></section>
- <section class="panel"><div class="panel-header"><h2>What the figures suggest checking</h2></div><div class="panel-body"><div class="benchmark-notes">${insights.map(x=>`<p>${safe(x)}</p>`).join('')}</div><p class="intel-footnote">These are descriptive content-workflow observations, not political effectiveness scores or instructions for influencing voters. A different format mix does not itself cause higher engagement.</p></div></section>`;
+ return observations.slice(0,5);
+}
+function formatReport(data,privateMode=false){
+ const rows=TYPES.map(t=>{
+  const own=data.own?.formats?.[t]||{},ref=data.reference?.[t]||{};
+  const ownShare=own.share||0,colleagueShare=ref.share||0;
+  return `<tr><th scope="row">${t==='Photo'?'Photos / graphics':t}</th><td>${number(own.count)}</td><td><div class="peer-bar-row"><span>${percent(own.share)}</span><span class="peer-bar-track"><span style="width:${Math.min(100,ownShare*100)}%"></span></span></div></td><td><div class="peer-bar-row"><span>${percent(ref.share)}</span><span class="peer-bar-track peer-bar-muted"><span style="width:${Math.min(100,colleagueShare*100)}%"></span></span></div></td><td>${number(own.perPost)}</td><td>${number(ref.perPost)}</td></tr>`;
+ }).join('');
+ const highlights=comparisonCards(data);
+ const findings=highlights.length?highlights.map(f=>`<article class="peer-finding"><div class="peer-finding-label">${safe(f.kind)} · ${safe(f.format)}</div><h3>${safe(f.title)}</h3><p>${safe(f.detail)}</p></article>`).join(''):`<article class="peer-finding"><div class="peer-finding-label">Content review</div><h3>Your content format mix is broadly similar to your colleagues</h3><p>Review the detailed breakdown below alongside accessibility, available resources and posting context.</p></article>`;
+ const checklist=`<section class="peer-guidance"><h2>Production and accessibility checklist</h2><p>Practical checks for the office's content workflow, independent of the comparison figures.</p><div class="peer-guidance-grid"><div><strong>Video</strong><span>Check captions, transcripts, legible text and audio quality.</span></div><div><strong>Graphics</strong><span>Check contrast, image descriptions and source attribution.</span></div><div><strong>Links</strong><span>Check destination pages, mobile usability and accessibility.</span></div><div><strong>Planning</strong><span>Keep a realistic content calendar and review what resources are available.</span></div></div></section>`;
+ return `${intelScopeBanner()}<div class="benchmark-intro"><h2>How you compare with your colleagues</h2><p>An anonymous view of publishing formats and recorded interactions. Colleagues' individual accounts and figures remain private.</p></div>
+  <div class="peer-summary"><div class="peer-lead-number"><span>Your published posts</span><strong>${number(data.own.n)}</strong><small>Selected ${privateMode?data.days:data.period}-day period</small></div><div class="peer-lead-copy"><span>What stands out</span><strong>${highlights.length?safe(highlights[0].title):'Your publishing patterns at a glance'}</strong><small>Based on content format and recorded post interactions; not a measure of political effectiveness.</small></div></div>
+  <section class="panel peer-section"><div class="panel-header"><h2>What your colleagues are doing</h2><span class="subtle">Anonymous comparisons</span></div><div class="panel-body"><div class="peer-findings">${findings}</div></div></section>
+  <section class="panel peer-section"><div class="panel-header"><h2>Your content compared</h2><span class="subtle">${privateMode?'Available verified records':'Fictional reporting period'}</span></div><div class="panel-body"><div class="table-wrap"><table class="benchmark-table peer-data-table"><thead><tr><th>Format</th><th>Your posts</th><th>Your share</th><th>Your colleagues</th><th>Your interactions/post</th><th>Colleagues' interactions/post</th></tr></thead><tbody>${rows}</tbody></table></div><p class="intel-footnote">The colleague figure is the median across eligible offices. Interactions per post are descriptive; differences do not establish that a format causes more engagement. Small or missing samples are not treated as zero.</p></div></section>
+ ${checklist}`;
 }
 function privateBody(){
  if(!CLOUD?.user||!CLOUD?.org)return intelEmpty('Sign in to your assigned office workspace to see your Page benchmarks.');
@@ -48,9 +64,7 @@ function privateBody(){
  if(remote.status==='insufficient')return intelEmpty('A comparison with your colleagues needs data from at least five other eligible offices. No individual office results will be shown.');
  if(remote.status==='no_data')return intelEmpty('Your Page has no verified post-format data for this period. Connect a Page and allow its data to sync.');
  if(remote.status==='error')return intelEmpty('The comparison could not be loaded. Please try again.');
- const d=remote;
- const table=TYPES.map(t=>{let a=d.own?.formats?.[t]||{},b=d.reference?.[t]||{};return `<tr><th>${t}</th><td>${number(a.count)}</td><td>${percent(a.share)}</td><td>${percent(b.share)}</td><td>${number(a.perPost)}</td><td>${number(b.perPost)}</td></tr>`}).join('');
- return `${intelScopeBanner()}<p class="intel-footnote">Your colleagues’ figures are shown as an anonymous group median only when enough offices have data. No peer account names or underlying records are returned.</p><section class="panel"><div class="panel-header"><h2>Publishing formats</h2></div><div class="panel-body"><div class="table-wrap"><table class="benchmark-table"><thead><tr><th>Format</th><th>Your posts</th><th>Your mix</th><th>Your colleagues</th><th>Your interactions/post</th><th>Your colleagues</th></tr></thead><tbody>${table}</tbody></table></div></div></section><p class="intel-footnote">Aggregates are descriptive only and do not imply causal gains from changing format. Missing metrics are not treated as zero.</p>`;
+ return formatReport(remote,true);
 }
 async function loadPrivate(key){
  if(busy)return;busy=true;

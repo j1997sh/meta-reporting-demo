@@ -1,3 +1,10 @@
+## 5.3.1 — Peer benchmarks UX update
+
+- Replaced generic benchmark cards with plain-English observations about colleagues' publishing patterns and recorded interactions.
+- Introduced an evidence table with compact content-mix bars and a practical accessibility/content-production checklist.
+- Kept individual colleague identities and per-account records private. No evaluative MP rankings or causal performance claims are generated.
+- No database changes required; uses the existing anonymous peer benchmark function and fictional dataset.
+
 # META Reporting — Changelog
 
 ## 5.0 — 11 November 2026
