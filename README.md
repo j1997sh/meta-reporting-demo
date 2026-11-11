@@ -1,67 +1,88 @@
-# META Reporting — GitHub + Supabase connected demonstration
+# META Reporting 4.0 — Secure Cloud Workspace
 
-This release connects the existing GitHub Pages website to the **META TRACKING / j1997sh’s Project** Supabase PostgreSQL database. The browser loads the fictional MP directory, follower snapshots, post analytics, advertising campaign metrics, geographical estimates and a report template preset through Supabase's REST API.
+**Website:** https://j1997sh.github.io/meta-reporting-demo/
 
-**The connection is read-only and DEMO ONLY.** Supabase Row Level Security allows anonymous reads only for approved fictional demo data. Real Meta data, other organisations, membership records, report jobs, secrets and confidential material are not exposed. There are no anonymous update/insert policies. The browser uses a publishable API key, not a secret.
+The public site continues to display **fictional Facebook analytics**. A separate, authenticated Supabase workspace enables durable report templates, user roles, report jobs, private PDF/PowerPoint exports and scheduled reporting. There is **no real Meta API connection yet**.
 
-The visual report builder still saves user edits in browser localStorage; automatic schedules and user authentication are not yet implemented. Real Meta API tokens must never appear in GitHub Pages.
+## Installation: existing GitHub Pages website
 
-**Publish:** Upload all files in this directory to the root of the existing GitHub repo `meta-reporting-demo`. Commit. No GitHub Pages settings need changing. Check the status label in the top bar: `SUPABASE · DEMO DATA` indicates a successful fetch. `LOCAL DEMO · DATABASE OFFLINE` means the local fictional fallback is being shown instead. Open the browser console for a specific error.
+1. Extract `META_Reporting_Cloud_Workspace_v4.zip`.
+2. Open the existing repository `j1997sh/meta-reporting-demo` on GitHub.
+3. Use **Add file → Upload files**. Upload the **files inside** the `meta-reporting-demo/` directory into the **root of the repository**, replacing same-named existing files. Do not upload the directory itself.
+4. Commit. Leave GitHub Pages configured for the `main` branch and `/ (root)`.
+5. Refresh https://j1997sh.github.io/meta-reporting-demo/ after GitHub Pages publishes the update.
 
-# META Reporting — Expanded GitHub Pages Demonstration
+**Important new files:** `cloud-workspace.js`, `cloud-workspace.css`. Do not omit these. `index.html` and `app.js` have also changed.
 
-A static, browser-based **fictional Facebook network analytics** demonstration. All MPs, Pages, location distributions, posts, campaigns, follower figures and advertising performance figures are simulated. **No real Meta API connection is included.**
+## One-time Supabase Authentication settings
 
-## What's new in this release
+In the existing Supabase **META TRACKING → j1997sh's Project** dashboard:
 
-- **Visual Report Studio:** Add, remove and drag/reorder report components; adjust account, title, metric, colours, logo URL and commentary. Preview results. Export an editable `.pptx`, print/save as PDF, and save report templates **in your own browser**.
-- **Templates and configuration:** Save/duplicate/delete templates; export/import templates as JSON; inspect local report history; configure illustrative schedules. **Schedules are saved as examples and do not send reports or execute automatically.**
-- **Audience geography:** Simulated follower percentages by city and country, configurable city groups for a descriptive local-area estimate, CSV download, and a geography component in the report builder. **City labels are not parliamentary constituency boundaries.**
-- **Custom league table:** Choose metrics and visible columns, save named views, export CSV.
-- **Expanded campaigns:** Edit keyword rules and manually exclude irrelevant post matches.
-- **Advertising explorer:** Campaign, account and daily reporting views from the fictional dataset.
-- **Connections and diagnostics:** Documentation of permissions and metrics to validate when a secure live integration is added. It does not test the API.
-- Existing **Overview, Accounts, Compare MPs, Audience, Content Explorer and Activity Monitor** remain available.
+1. Open **Authentication → URL Configuration**.
+2. Set **Site URL** to `https://j1997sh.github.io/meta-reporting-demo/`.
+3. Add **Redirect URL**: `https://j1997sh.github.io/meta-reporting-demo/**`.
+4. Keep email confirmation enabled if available. Supabase's built-in email service can have rate limits; a custom SMTP provider is recommended before inviting numerous people.
 
-## Publish the update to your existing GitHub repository
+No API secret or service-role key needs to be entered in GitHub. The publishable key in the browser is public by design; access is controlled through RLS and authenticated functions.
 
-Your current site is configured from the `main` branch and `/ (root)` folder.
+## Activate your own workspace
 
-1. Extract this ZIP.
-2. Open your existing `meta-reporting-demo` repository on GitHub.
-3. Select **Add file → Upload files**.
-4. Upload **all the files inside this folder** directly to the repository root. This includes `index.html`, `styles.css`, `extensions.css`, `app.js`, `extensions.js`, `jszip.min.js`, `pptxgen.min.js`, `.nojekyll`, `README.md`, and the licence notices.
-5. GitHub may warn that some filenames already exist; accept the replacements, then **Commit changes**.
-6. Your existing GitHub Pages deployment should publish the update automatically. If the old interface persists, perform a hard refresh or open a private browser window.
+1. On the published website click **Sign in → Create account** and verify your email if requested.
+2. Sign in; open **My workspace**.
+3. Download the **separately delivered** `META_Reporting_Private_Setup_Code.txt` and enter its one-time activation code on the website. **Never upload that code file to GitHub.**
+4. Name the workspace and activate it. This code can only be used once.
+5. Three starter templates are added to your private organisation: Weekly MP Performance, Organisation Performance and Advertising Review.
 
-**Do not upload the outer folder as a nested folder, and do not upload the ZIP itself.**
+The initial user becomes the workspace owner. Other users join through invitations in **Organisation admin**; the one-time setup code is not shared with them.
 
-## Security and accuracy
+## What is live and tested on Supabase
 
-The public GitHub Pages website is a **demo only**. Never commit Meta access tokens, real personal or constituent data, API secrets or unpublished reports to it. No server-side authentication, live Meta data ingestion, automated report delivery or persistent multi-user database is implemented.
+- 17 original reporting tables plus template version history; Row Level Security and private Storage policies.
+- A database-backed authenticated organisation with `owner`, `admin`, `analyst` and `viewer` roles. Owners/admins can edit reporting records; analysts/viewers can read.
+- A protected invite/member management Edge Function (`meta-members`).
+- A custom Report Studio and saved report templates, persisted in your own workspace database.
+- Cloud-saved league table configurations and template version history (previous template versions are stored in the database; a visual restore button is not yet present).
+- Private report storage (`meta-reports` bucket), with signed download URLs.
+- An automatic report worker Edge Function (`meta-report-worker`), authenticated by a secret held inside Supabase Vault.
+- Two active PostgreSQL cron jobs: queue checks every 15 minutes, with report processing every 15 minutes, offset by five minutes.
+- Weekly, daily and monthly schedules using Europe/London local time; weekly defaults to Monday at 09:00 UK time. Supports organisation and individual-MP reports, plus all-eight-MP bulk reports.
+- An end-to-end automated PDF/PPTX export was generated and verified in private Supabase Storage using a synthetic QA job.
 
-Report templates, saved league-table views, geographic groups, local campaign exclusions and schedule settings live in the current browser's `localStorage`. They do not sync between devices. Export your templates as JSON if you want a backup.
+## Using the new website
 
-The follower geography feature uses illustrative percentages, **not** Meta Page Insights. For production, an authenticated backend must determine which geographic follower breakdowns the authorised Page actually supports, verify metric fields/periods against its Graph API version and Page permissions, and account for aggregation/suppression and non-constituency geographic boundaries.
+**My workspace**: Sign in, activate your organisation, review cloud template and report counts.
 
-PowerPoint export uses a bundled browser-side library and creates editable text and shapes; not every browser chart is reproduced as an editable PowerPoint chart. PDF export uses the browser print dialogue.
+**Report studio**: Use the existing visual component editor. Click **Save template** to save to Supabase while signed in. Without sign-in, edits continue to save locally only.
 
-## Files
+**Cloud report library**: Select a saved template and scope; generate a PDF and PowerPoint. Create schedules, approve review-required reports, inspect job history, and download finished reports through short-lived signed URLs.
 
-- `index.html` — website shell and navigation
-- `styles.css` — original dashboard styling
-- `extensions.css` — report studio, geography, filters and print styling
-- `app.js` — synthetic dataset and original dashboards
-- `extensions.js` — report studio, geography, deeper explorer and local settings
-- `jszip.min.js` and `pptxgen.min.js` — bundled open-source PowerPoint export dependencies
-- Licence notices — third-party library licences
-- `.nojekyll` — disables Jekyll processing on GitHub Pages
+**Organisation admin**: Rename the organisation, add/enable/disable/remove Page records, invite users and change their roles.
 
-## Testing performed
+**League table**: Click **Save current view** while signed in to persist your column/sort selection in Supabase, available on another device.
 
-- JavaScript syntax checked with Node.js.
-- Tested rendering of all expanded views in headless Chromium with the provided demo data.
-- Tested adding report components, saving a template, switching tabs, and changing league table columns.
-- Tested and generated a `.pptx` download in headless Chromium.
+## Important scope and limitations
 
-A full live Meta API integration and cross-browser production test remain outstanding.
+- **All reporting metrics are currently simulated**. The public demonstration dataset is intentionally kept separate from the private workspace.
+- The automated server worker currently produces **editable PowerPoint text and shapes** and a structured PDF, but does **not reproduce every browser chart or drag-and-drop pixel placement**. The browser's full visual report designer remains the richer interactive representation.
+- **Email delivery is not configured**. Scheduled reports generate files privately; they are not automatically emailed. An email provider and recipient/consent controls are needed before enabling that feature.
+- The interface does not yet retrieve live Meta Page Insights, audience geography or Marketing API data. It is prepared for future server-side integration; never paste Meta tokens into GitHub files.
+- Do not use the public Pages demonstration to store confidential or sensitive data. Live customer data should remain behind authenticated Supabase access.
+- The Github Pages demo cannot host backend logic. Scheduled jobs and file generation already run server-side in Supabase.
+
+## Troubleshooting
+
+**Sign up redirects to the wrong site:** Check Authentication → URL Configuration (Site URL and Redirect URLs).
+
+**Invitation never arrives:** Check spam and Supabase Auth email sending limits. You can still invite an existing Supabase user.
+
+**Cloud SDK unavailable:** Ensure the browser can access the pinned Supabase JavaScript SDK from jsDelivr. Ad blockers and network restrictions may prevent it loading.
+
+**No reports in the library:** Confirm a template was saved after signing in. Scheduled jobs run on cron intervals; press Refresh to retrieve the latest job status.
+
+**Report requires approval:** Click **Approve** in the cloud library. The worker then generates the PDF/PPTX automatically on the next run.
+
+**Supabase access denied:** Confirm you are signed into the account that owns the private organisation or have received an invitation.
+
+## Security reminders
+
+The activation-code file is separate from the website ZIP. It must **never** be committed to GitHub. Real Meta user tokens, service-role keys, secrets and private report files must never be committed to the repository. Public demo read permissions are intentionally restricted to fictional rows; private reports and authentication records remain protected by Supabase.
